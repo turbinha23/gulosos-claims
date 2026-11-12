@@ -1,0 +1,3 @@
+Projeto sem pastas: envia TODOS estes ficheiros para o GitHub.
+O ficheiro build.yml.txt NAO e enviado: o conteudo dele vai para um ficheiro novo
+chamado .github/workflows/build.yml (ver instrucoes no chat).

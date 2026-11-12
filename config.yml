@@ -1,0 +1,20 @@
+# ===== GulososClaims =====
+blocos:
+  iniciais: 200          # blocos que cada jogador tem ao comecar
+  por-hora: 100          # blocos ganhos por hora de jogo
+  maximo-total: 100000   # limite de blocos ganhos por tempo (nao conta os dados por admins)
+
+terrenos:
+  tamanho-minimo: 5            # lado minimo de um terreno
+  maximo-por-jogador: 10
+  mundos-bloqueados: []        # ex: [world_the_end]
+
+titulos:
+  entrar-terreno: true         # titulo com o logo ao entrar num terreno
+  boas-vindas: true            # titulo com o logo quando alguem entra no servidor
+
+chat:
+  tags: true                   # mostra a tag (FOUNDER, VIP...) antes do nome no chat
+
+efeitos:
+  selo-3d: true               # logo 3D flutuante + pa a rodar quando crias um terreno

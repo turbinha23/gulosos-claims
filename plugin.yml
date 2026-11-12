@@ -1,0 +1,37 @@
+name: GulososClaims
+version: 1.0.0
+main: pt.gulosos.claims.GulososClaims
+api-version: '1.21'
+author: GulososSMP
+description: Sistema de terrenos (claims) do GulososSMP com menus, titulos e efeitos 3D.
+
+commands:
+  claim:
+    description: Recebe a pa dourada para marcar terrenos
+    usage: /claim [confirmar|cancelar]
+    aliases: [claims]
+  blocos:
+    description: Mostra os teus blocos de terreno
+    usage: /blocos
+    aliases: [claimblocks]
+  terrenos:
+    description: Abre o menu de terrenos
+    usage: /terrenos
+    aliases: [terreno]
+
+permissions:
+  gulosos.admin:
+    description: Ignora proteccoes e gere blocos de outros jogadores
+    default: op
+  gulosos.tag.founder:
+    default: false
+  gulosos.tag.admin:
+    default: false
+  gulosos.tag.mod:
+    default: false
+  gulosos.tag.helper:
+    default: false
+  gulosos.tag.builder:
+    default: false
+  gulosos.tag.vip:
+    default: false
