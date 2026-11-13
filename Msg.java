@@ -19,11 +19,10 @@ public final class Msg {
     public static final String TAG_BUILDER = "\ue004";
     public static final String TAG_VIP     = "\ue005";
     public static final String TAG_MEMBRO  = "\ue006";
-    public static final String LOGO_32     = "\ue007";
-    public static final String LOGO_24     = "\ue008"; // usado nos titulos
-    public static final String LOGO_40     = "\ue009";
-    public static final String LOGO_48     = "\ue00a";
-    public static final String LOGO_CHAT   = "\ue00b"; // horizontal, 1 linha
+    public static final String LOGO_CHAT  = "\ue00b"; // chat, menus (pequeno)
+    public static final String LOGO_SUB   = "\ue00c"; // subtitulos e holograma 3D
+    public static final String LOGO_TITLE = "\ue00d"; // titulos grandes (alta resolucao)
+    public static final String LOGO_24    = LOGO_TITLE; // nome antigo, mantido por compatibilidade
 
     private static final MiniMessage MM = MiniMessage.miniMessage();
 

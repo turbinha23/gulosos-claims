@@ -41,6 +41,23 @@ public final class Fx {
         }.runTaskTimer(plugin, 0L, 2L);
     }
 
+    /** Logo pequeno no subtitulo (metade do tamanho de um titulo) com texto letra a letra. */
+    public static void typewriterSub(GulososClaims plugin, Player p, String text, NamedTextColor color) {
+        new BukkitRunnable() {
+            int i = 0;
+            @Override public void run() {
+                if (!p.isOnline()) { cancel(); return; }
+                i++;
+                String shown = text.substring(0, Math.min(i, text.length()));
+                Component sub = Msg.glyph(Msg.LOGO_SUB).append(Component.text("  " + shown, color));
+                p.showTitle(Title.title(Component.empty(), sub, Title.Times.times(
+                        Duration.ZERO, Duration.ofMillis(1800), Duration.ofMillis(500))));
+                if (i <= text.length()) p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 0.2f, 1.8f);
+                if (i >= text.length()) cancel();
+            }
+        }.runTaskTimer(plugin, 0L, 2L);
+    }
+
     /** Pilar de particulas douradas num canto selecionado. */
     public static void pillar(GulososClaims plugin, Player p, Location corner) {
         World w = corner.getWorld();
@@ -102,7 +119,7 @@ public final class Fx {
                     new Vector3f(2.2f, 2.2f, 2.2f), new AxisAngle4f()));
         });
         TextDisplay text = w.spawn(base.clone().add(0, 1.7, 0), TextDisplay.class, t -> {
-            t.text(Msg.glyph(Msg.LOGO_CHAT)
+            t.text(Msg.glyph(Msg.LOGO_SUB)
                     .append(Component.newline())
                     .append(Component.text(c.name, NamedTextColor.GOLD)));
             t.setBillboard(Display.Billboard.CENTER);

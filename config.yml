@@ -10,11 +10,16 @@ terrenos:
   mundos-bloqueados: []        # ex: [world_the_end]
 
 titulos:
-  entrar-terreno: true         # titulo com o logo ao entrar num terreno
+  entrar-terreno: true         # mostra o logo ao entrar num terreno
+  entrar-terreno-modo: subtitulo   # subtitulo (pequeno) ou actionbar (mais discreto)
   boas-vindas: true            # titulo com o logo quando alguem entra no servidor
 
 chat:
   tags: true                   # mostra a tag (FOUNDER, VIP...) antes do nome no chat
+  nomes-especiais: true        # nome dourado (FOUNDER) e estilo hacker (ADMIN) no chat
+
+tab:
+  ativo: true                  # tag para todos e nomes animados de FOUNDER/ADMIN na lista TAB
 
 efeitos:
   selo-3d: true               # logo 3D flutuante + pa a rodar quando crias um terreno

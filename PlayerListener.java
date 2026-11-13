@@ -20,6 +20,7 @@ import org.bukkit.Location;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 
 /** Boas-vindas, entrar/sair de terrenos e chat (tags + pedidos de texto dos menus). */
@@ -80,9 +81,15 @@ public class PlayerListener implements Listener {
             boolean own = c.owner.equals(p.getUniqueId());
             if (plugin.getConfig().getBoolean("titulos.entrar-terreno", true)) {
                 String text = own ? "O teu terreno" : "Terreno de " + c.ownerName;
-                Fx.typewriter(plugin, p, Msg.glyph(Msg.LOGO_24), text, own ? NamedTextColor.GREEN : NamedTextColor.YELLOW);
+                NamedTextColor col = own ? NamedTextColor.GREEN : NamedTextColor.YELLOW;
+                String mode = plugin.getConfig().getString("titulos.entrar-terreno-modo", "subtitulo");
+                if (mode.equalsIgnoreCase("actionbar")) {
+                    p.sendActionBar(Msg.prefix().append(Component.text(text, col)));
+                } else {
+                    Fx.typewriterSub(plugin, p, text, col);
+                }
             }
-            if (own) {
+            if (own && !plugin.getConfig().getString("titulos.entrar-terreno-modo", "subtitulo").equalsIgnoreCase("actionbar")) {
                 Msg.actionBar(p, "<gold><n> <dark_gray>| <gray>Blocos restantes: <white><rest>",
                         Msg.p("n", c.name), Msg.p("rest", plugin.claims().remainingBlocks(p.getUniqueId())));
             }
@@ -111,21 +118,36 @@ public class PlayerListener implements Listener {
         });
     }
 
-    /** Formato do chat com a tag do resource pack antes do nome. */
+    /** Formato do chat: tag + nome (com estilo para FOUNDER/ADMIN) + mensagem. */
     @EventHandler(priority = EventPriority.NORMAL, ignoreCancelled = true)
     public void onChat(AsyncChatEvent e) {
         if (!plugin.getConfig().getBoolean("chat.tags", true)) return;
-        e.renderer(ChatRenderer.viewerUnaware((source, name, message) ->
-                tag(source).append(Component.text(" "))
-                        .append(name)
-                        .append(Component.text(": ", NamedTextColor.GRAY))
-                        .append(message)));
+        boolean special = plugin.getConfig().getBoolean("chat.nomes-especiais", true);
+        e.renderer(ChatRenderer.viewerUnaware((source, name, message) -> {
+            int role = roleIndex(source);
+            Component shown = name;
+            if (special && role >= 0 && role <= 1) {
+                String plain = PlainTextComponentSerializer.plainText().serialize(name);
+                shown = role == 0
+                        ? NameStyle.founder(plain, ThreadLocalRandom.current().nextDouble(), ThreadLocalRandom.current().nextInt(plain.length() + 4) - 2)
+                        : NameStyle.admin(plain, 0.10, ThreadLocalRandom.current().nextDouble(), true);
+            }
+            return tagComponent(role).append(Component.text(" "))
+                    .append(shown)
+                    .append(Component.text(": ", NamedTextColor.GRAY))
+                    .append(message);
+        }));
     }
 
-    private Component tag(Player p) {
+    /** 0=founder 1=admin 2=mod 3=helper 4=builder 5=vip, -1=membro */
+    public static int roleIndex(Player p) {
         for (int i = 0; i < TAG_ORDER.length; i++) {
-            if (p.hasPermission("gulosos.tag." + TAG_ORDER[i])) return Msg.glyph(TAG_GLYPH[i]);
+            if (p.hasPermission("gulosos.tag." + TAG_ORDER[i])) return i;
         }
-        return Msg.glyph(Msg.TAG_MEMBRO);
+        return -1;
+    }
+
+    public static Component tagComponent(int role) {
+        return Msg.glyph(role >= 0 ? TAG_GLYPH[role] : Msg.TAG_MEMBRO);
     }
 }

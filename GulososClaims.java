@@ -47,6 +47,10 @@ public class GulososClaims extends JavaPlugin {
             claims.saveIfDirty();
         }, 1200L, 1200L);
 
+        if (getConfig().getBoolean("tab.ativo", true)) {
+            new TabTask().runTaskTimer(this, 20L, 3L);
+        }
+
         getLogger().info("GulososClaims ativo.");
     }
 
